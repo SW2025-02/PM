@@ -1,0 +1,2 @@
+class StopwatchRecord < ApplicationRecord
+end

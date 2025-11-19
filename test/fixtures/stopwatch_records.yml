@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: MyString
+  subject_id: MyString
+  start_time: MyString
+  datetime: MyString
+  pause_time: 2025-11-19 08:32:45
+  elapsed_seconds: 1
+  is_running: false
+  last_started_at: 2025-11-19 08:32:45
+
+two:
+  user_id: MyString
+  subject_id: MyString
+  start_time: MyString
+  datetime: MyString
+  pause_time: 2025-11-19 08:32:45
+  elapsed_seconds: 1
+  is_running: false
+  last_started_at: 2025-11-19 08:32:45
