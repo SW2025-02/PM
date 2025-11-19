@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-  get "study_records/index"
-  get "study_records/show"
-  get "study_records/update"
-  get "study_records/destroy"
-  get "stopwatch_records/start"
-  get "stopwatch_records/pause"
-  get "stopwatch_records/resume"
-  get "stopwatch_records/status"
-  get "stopwatch_records/finish"
+  post "stopwatch/start", to: "stopwatch_records#start"
+  post "stopwatch/pause", to: "stopwatch_records#pause"
+  post "stopwatch/resume", to: "stopwatch_records#resume"
+  get "stopwatch/status", to: "stopwatch_records#status"
+  post "stopwatch/finish", to: "stopwatch_records#finish"
+  
+  resourses :study_records, only: [:index, :show, :update, :destroy]
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
