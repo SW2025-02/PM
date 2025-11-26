@@ -1,10 +1,163 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.top-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  flex-wrap: wrap; /* 画面狭い時は縦並び */
+}
+
+.left-column {
+  flex: 1 1 250px; /* 最小250pxから拡大 */
+  display: flex;
+  justify-content: center;
+}
+
+.timer-circle {
+  width: 20vw;   /* 画面幅に応じて大きさ可変 */
+  max-width: 300px;
+  min-width: 150px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: 5px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(1rem + 1vw); /* 画面幅に応じて文字も大きく */
+}
+
+.right-column {
+  flex: 2 1 300px; /* 画面幅に応じて広がる */
+}
+
+.study-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+textarea.memo-box {
+  width: 100%; /* 画面幅に応じて広がる */
+  min-height: 120px;
+  resize: vertical;
+}
+
+.button-row, .record-row, .add-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.record-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* app/assets/stylesheets/studies.scss などに記述 */
+
+/* app/assets/stylesheets/studies.scss などに追記/修正 */
+
+
+
+.logout-button-wrapper {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  
+  /*// リンク全体がコンテナを占めるようにFlexboxを使用*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-title {
+  margin: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+}
+
+.logout-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid black;
+  padding: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.total-time-box, .time-box {
+  border: 1px solid black;
+  height: 25px;
+  width: 150px; /* サイズは調整してください */
+  display: inline-block;
+}
+
+.subject-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.monthly-summary{
+    text-align: center;
+}
+
+/* 日付グリッドのレイアウト */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7列のグリッド */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.day-button {
+  border: 1px solid black;
+  padding: 10px 5px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+/* app/assets/stylesheets/studies.scss などに追記/修正 */
+
+.wday-label {
+  /*// 元々あったスタイル*/
+  text-align: center;
+  font-weight: bold;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  /* --- ここから中央寄せのための追加/修正 --- */
+  /*/曜日ラベルのセルの高さ・幅を日付セルと揃えるために必要*/
+  height: 60px; 
+  /*padding: 0; // 既存のパディングをリセットし、Flexbox/Gridで制御します*/
+
+  /*// Flexboxコンテナとして設定*/
+  display: flex;
+  
+  /*// 横方向（主軸）を中央に揃える*/
+  justify-content: center;
+  
+  /*// 縦方向（交差軸）を中央に揃える*/
+  align-items: center;
+}

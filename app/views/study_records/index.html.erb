@@ -1,2 +1,53 @@
-<h1>StudyRecords#index</h1>
-<p>Find me in app/views/study_records/index.html.erb</p>
+<div class="container">
+     <%= link_to "戻る", carender_path%>
+    <h1 class = "row button-row">〇月〇日</h1>
+  <!-- 1段目：タイマーと勉強内容 -->
+  <div class="top-row">
+    <div class="left-column">
+      <div class="timer-circle">
+        <span id="timer">00:00:00</span>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="study-box">
+        <h3>今日の勉強内容</h3>
+        <div class="input-area">
+          <div>
+            <label>科目</label><br>
+            <%= select_tag :subject, options_for_select(["数学", "英語", "国語", "理科", "社会"]), class: "subject-select" %>
+          </div>
+          <div>
+            <label>メモ</label><br>
+            <%= text_area_tag :memo, "", rows: 5, class: "memo-box" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2段目：ボタン -->
+  <div class="row button-row">
+    <button id="startStopBtn" class="btn">スタート / ストップ</button>
+    <button id="pauseResumeBtn" class="btn">停止 / 再開</button>
+    <button id="saveBtn" class="btn">登録</button>
+  </div>
+
+  <!-- 3段目：登録内容 -->
+  <div class="row record-row">
+    <div class="record-box">
+      <h3>今日の登録内容</h3>
+      <% if @records.present? %>
+        <% @records.each do |r| %>
+          <p><strong><%= r.subject %></strong>：<%= r.memo %>（<%= r.time_spent %>）</p>
+        <% end %>
+      <% else %>
+        <p>NotFound: Motivation</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 4段目：追加ボタン -->
+  <div class="row add-row">
+    <%= link_to "追加", new_study_path, class: "btn" %>
+  </div>
+</div>

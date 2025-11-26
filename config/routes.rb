@@ -1,22 +1,10 @@
 Rails.application.routes.draw do
-  post "stopwatch/start", to: "stopwatch_records#start"
-  post "stopwatch/pause", to: "stopwatch_records#pause"
-  post "stopwatch/resume", to: "stopwatch_records#resume"
-  get "stopwatch/status", to: "stopwatch_records#status"
-  post "stopwatch/finish", to: "stopwatch_records#finish"
-  
-  resourses :study_records, only: [:index, :show, :update, :destroy]
-  
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root "study_records#carender"
+  resources :studies
+  resources :study_records, only: [:index, :show, :update, :destroy]
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
+  
+  # 'study_records/11/26' のようなURLパターンに対応
+  get 'study_records/:month/:day', to: 'study_records#show_day', as: 'study_day'
 end

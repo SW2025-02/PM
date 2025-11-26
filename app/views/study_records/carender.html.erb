@@ -1,0 +1,69 @@
+<div class="container">
+  <header class="header">
+    <div class="logout-button-wrapper">
+      <%= button_to 'ログアウト',class: 'logout-button' %>
+    </div>
+    
+    <h1 class="app-title">ガクレコ</h1>
+    <p class="greeting">〇〇さんお疲れ様です</p> 
+  </header>
+
+  <hr>
+
+  <section class="monthly-summary">
+    <h2 class="month-title">11月</h2>
+    <p class="total-label">今月の合計勉強時間</p>
+    <div class="total-time-box">
+    </div>
+    <hr width = "50%">
+
+    <div class="subject-breakdown">
+      <% %w(国語 数学 理科 社会 英語 その他).each do |subject| %>
+        <div class="subject-row">
+          <span class="subject-name"><%= subject %></span>
+          <div class="time-box">
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  ---
+  
+  <section class="daily-records">
+    <h2 class="section-section">日別記録</h2>
+    <div class="calendar-wrapper">
+      <div class="day-grid">
+        <% %w(日 月 火 水 木 金 土).each do |wday| %>
+          <span class="wday-label"><%= wday %></span>
+        <% end %>
+
+        <% 
+          start_date = @date.beginning_of_month
+          first_day_wday = start_date.wday
+        %>
+
+        <% first_day_wday.times do %>
+          <div class="empty-cell"></div>
+        <% end %>
+
+        <% 
+          end_day = @date.end_of_month.day
+        %>
+
+        <% (1..end_day).each do |day| %>
+          <% 
+            current_date = start_date.day == day ? start_date : start_date.change(day: day)
+            css_class = 'day-button'
+            if current_date.saturday?
+              css_class += ' saturday'
+            elsif current_date.sunday?
+              css_class += ' sunday'
+            end
+          %>
+          <%= link_to "#{day}日", study_day_path(month: @date.month, day: day), class: css_class %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>
