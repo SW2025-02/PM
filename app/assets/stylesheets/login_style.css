@@ -1,0 +1,81 @@
+/* ===== ログインページ全体のスコープ ===== */
+.login-page {
+  font-family: "Helvetica", "Arial", sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+}
+
+/* ===== ログインボックス ===== */
+.login-box {
+  width: 350px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+/* タイトル */
+.login-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* 入力欄 */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* ボタン */
+.login-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-btn,
+.signup-btn {
+  border: 1px solid #333;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #222;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  background: #eaeaea;
+}
+
+/* アイコン表示エリアの例 */
+.app-logo {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.admin-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 35px;
+  border: 1px solid #888;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+}
