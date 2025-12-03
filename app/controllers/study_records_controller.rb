@@ -1,35 +1,39 @@
 class StudyRecordsController < ApplicationController
+  before_action :set_record, only: [:show, :update, :destroy]
+
+  # GET /study_records
   def index
+    records = current_user.study_records.order(created_at: :desc)
+    render json: records
   end
 
+  # GET /study_records/:id
   def show
+    render json: @record
   end
 
+  # PATCH/PUT /study_records/:id
   def update
-  end
-
-  def destroy
-  end
-  
-  def carender
-    # パラメータから年月を取得し、日付オブジェクトを作成
-    if params[:year].present? && params[:month].present?
-      # 例: /study_records/carender?year=2025&month=11 の場合
-      @date = Date.new(params[:year].to_i, params[:month].to_i, 1)
+    if @record.update(study_record_params)
+      render json: { status: :updated, record: @record }
     else
-      # パラメータがない場合（初めてページを開いた時など）は、今日の日付を使用
-      @date = Date.current
+      render json: @record.errors, status: 422
     end
   end
-  
-  def show_day
-    # URLから :month と :day パラメータを取得
-    @month = params[:month].to_i
-    @day = params[:day].to_i
 
-    # 該当日の勉強記録データをデータベースから取得するロジック
-    @study_record = StudyRecord.find_by(month: @month, day: @day, user: current_user)
-    
-    # このアクションに対応するビュー（例: app/views/study_records/show_day.html.erb）を作成してください。
+  # DELETE /study_records/:id
+  def destroy
+    @record.destroy
+    render json: { status: :deleted }
+  end
+  
+  private
+
+  def set_record
+    @record = current_user.study_records.find(params[:id])
+  end
+
+  def study_record_params
+    params.require(:study_record).permit(:content, :subject_id, :date)
   end
 end

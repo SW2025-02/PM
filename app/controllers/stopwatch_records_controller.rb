@@ -1,12 +1,15 @@
 class StopwatchRecordsController < ApplicationController
   before_action :set_stopwatch, only: [:pause, :resume, :status, :finish]
 
+  # POST /stopwatch/start
   def start
-    moved  = StopwatchRecord.find_by(user: current_user, is_running: true)
-    if moved
+    # すでに進行中があればそれを返す
+    existing = StopwatchRecord.find_by(user: current_user, is_running: true)
+    if existing
       return render json: { status: :already_running, stopwatch: existing }, status: 200
     end
-     stopwatch = StopwatchRecord.create!(
+
+    stopwatch = StopwatchRecord.create!(
       user: current_user,
       subject_id: params[:subject_id],
       start_time: Time.current,
@@ -18,6 +21,7 @@ class StopwatchRecordsController < ApplicationController
     render json: { status: :started, stopwatch: stopwatch }, status: 201
   end
 
+  # POST /stopwatch/pause
   def pause
     return render json: { error: "not running" }, status: 400 unless @stopwatch.is_running?
 
@@ -31,6 +35,7 @@ class StopwatchRecordsController < ApplicationController
     render json: { status: :paused, elapsed: @stopwatch.elapsed_seconds }
   end
 
+  # POST /stopwatch/resume
   def resume
     return render json: { error: "already running" }, status: 400 if @stopwatch.is_running?
 
@@ -42,6 +47,7 @@ class StopwatchRecordsController < ApplicationController
     render json: { status: :resumed }
   end
 
+  # GET /stopwatch/status
   def status
     total = @stopwatch.elapsed_seconds
     if @stopwatch.is_running?
@@ -55,6 +61,7 @@ class StopwatchRecordsController < ApplicationController
     }
   end
 
+  # POST /stopwatch/finish
   def finish
     # 合計時間計算
     total = @stopwatch.elapsed_seconds
