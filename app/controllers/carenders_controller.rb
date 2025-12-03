@@ -1,5 +1,5 @@
 class CarendersController < ApplicationController
-    def carender
+  def carender
     # パラメータから年月を取得し、日付オブジェクトを作成
     if params[:year].present? && params[:month].present?
       # 例: /study_records/carender?year=2025&month=11 の場合
