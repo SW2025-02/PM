@@ -36,4 +36,5 @@ class StudyRecordsController < ApplicationController
   def study_record_params
     params.require(:study_record).permit(:content, :subject_id, :date)
   end
+
 end
