@@ -28,7 +28,7 @@
     </div>
   </section>
 
-  
+  ---
   
   <section class="daily-records">
     <h2 class="section-section">日別記録</h2>
@@ -61,7 +61,7 @@
               css_class += ' sunday'
             end
           %>
-          <%= link_to "#{day}日", study_day_path(month: @date.month, day: day), class: css_class %>
+          <%= link_to "#{day}日", study_records_path(month: @date.month, day: day), class: css_class %>
         <% end %>
       </div>
     </div>
