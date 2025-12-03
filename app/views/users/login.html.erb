@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ガクレコ - ログイン</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <% content_for :css do %>
+    <%= stylesheet_link_tag "login_style", media: "all" %>
+    <% end %>
+  <div class="container">
+
+    <div class="header">
+      <div class="icon-box">アイコンを貼ろうね</div>
+      <h1 class="title">プルーフミー</h1>
+    </div>
+
+    <hr class="divider">
+
+    <h2 class="login-title">ログイン</h2>
+
+    <form class="login-form">
+      <input type="text" placeholder="ユーザ名">
+      <input type="password" placeholder="パスワード">
+
+      <div class="buttons">
+        <button type="submit" class="btn">ログイン</button>
+        <button type="submit" class="btn">新規登録</a>
+      </div>
+    </form>
+  </div>
+
+  <button class="admin-btn">管理</button>
+
+</body>
+</html>
