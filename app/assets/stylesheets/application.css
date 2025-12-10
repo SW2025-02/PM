@@ -72,11 +72,6 @@ textarea.memo-box {
   position: absolute;
   top: 0; 
   left: 0; 
-  
-  /*// リンク全体がコンテナを占めるようにFlexboxを使用*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .app-title {
@@ -102,6 +97,9 @@ textarea.memo-box {
   padding: 5px;
   text-decoration: none;
   color: black;
+  display: inline-block;
+  height: auto;
+  width:100px;
 }
 
 .total-time-box, .time-box {

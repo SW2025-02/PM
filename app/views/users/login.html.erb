@@ -4,35 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ガクレコ - ログイン</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <% content_for :css do %>
+
+  <% content_for :css do %>
     <%= stylesheet_link_tag "login_style", media: "all" %>
-    <% end %>
+  <% end %>
+</head>
+
+<body>
   <div class="container">
 
     <div class="header">
       <div class="icon-box">アイコンを貼ろうね</div>
-      <h1 class="title">プルーフミー</h1>
+      <h1 class="title">proof me</h1>
     </div>
 
     <hr class="divider">
 
     <h2 class="login-title">ログイン</h2>
 
-    <form class="login-form">
-      <input type="text" placeholder="ユーザ名">
-      <input type="password" placeholder="パスワード">
+    <%= form_with url: login_path, method: :post, local: true, class: "login-form" do %>
+      <%= text_field_tag :user_id, nil, placeholder: "ユーザ名" %>
+      <%= password_field_tag :password, nil, placeholder: "パスワード" %>
 
-      <div class="buttons">
-        <button type="submit" class="btn">ログイン</button>
-        <button type="submit" class="btn">新規登録</a>
+      <div class="login-actions">
+        <%= submit_tag "ログイン", class: "login-btn" %>
+        <%= link_to "新規登録", signup_path, class: "signup-btn" %>
       </div>
-    </form>
+    <% end %>
+
   </div>
 
-  <button class="admin-btn">管理</button>
+  <%= link_to "管理", admin_path, class: "admin-btn" %>
 
 </body>
 </html>
