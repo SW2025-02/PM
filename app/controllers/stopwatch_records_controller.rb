@@ -63,26 +63,33 @@ class StopwatchRecordsController < ApplicationController
 
   # POST /stopwatch/finish
   def finish
-    # 合計時間計算
-    total = @stopwatch.elapsed_seconds
-    if @stopwatch.is_running?
-      total += (Time.current - @stopwatch.last_started_at).to_i
-    end
-
+    rec = current_user.stopwatch_record
+  
+    end_time = Time.zone.now
+    total = rec.elapsed_seconds + (rec.is_running ? (end_time - rec.last_started_at).to_i : 0)
+  
     study = StudyRecord.create!(
-      user: current_user,
-      subject_id: @stopwatch.subject_id,
-      date: Date.current,
-      start_time: @stopwatch.start_time,
-      end_time: Time.current,
+      user_id: current_user.id,
+      subject: params[:subject],
+      memo: params[:memo],
+      start_time: rec.start_time,
+      end_time: end_time,
       duration_seconds: total,
+      date: end_time.to_date,
       is_completed: true
     )
-
-    @stopwatch.destroy!
-
-    render json: { status: :finished, study_record: study }, status: 201
+  
+    rec.destroy # 進行中レコード削除
+  
+    render json: {
+      record: {
+        subject: study.subject,
+        memo: study.memo,
+        time_spent: "#{study.duration_seconds}秒"
+      }
+    }
   end
+
 
   private
 
