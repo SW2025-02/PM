@@ -1,15 +1,18 @@
 class StudyRecordsController < ApplicationController
   before_action :set_record, only: [:show, :update, :destroy]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from ActionController::ParameterMissing, with: :render_bad_request
+
   # GET /study_records
   def index
     records = current_user.study_records.includes(:subject).order(created_at: :desc)
-    render json: records
+    render json: StudyRecordSerializer.new(records).serializable_hash
   end
 
   # GET /study_records/:id
   def show
-    render json: @record
+    render json: StudyRecordSerializer.new(@record).serializable_hash
   end
   
   def create
@@ -21,22 +24,17 @@ class StudyRecordsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /study_records/:id
   def update
     if @record.update(study_record_params)
-      render json: { status: :updated, record: @record }
-    else
-      render json: @record.errors, status: 422
-    end
-  end
-
-  # DELETE /study_records/:id
-  def destroy
-    if @record.destroy
-      head :no_content
+      render json: StudyRecordSerializer.new(@record).serializable_hash
     else
       render json: { errors: @record.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @record.destroy!
+    head :no_content
   end
   
   private
@@ -48,7 +46,7 @@ class StudyRecordsController < ApplicationController
   def study_record_params
     params.require(:study_record).permit(:content, :subject_id, :date)
   end
-  
+
   def render_not_found
     render json: { error: "Record not found" }, status: :not_found
   end
@@ -56,13 +54,4 @@ class StudyRecordsController < ApplicationController
   def render_bad_request(e)
     render json: { error: e.message }, status: :bad_request
   end
-
-  def pagination_meta(records)
-    {
-      current_page: records.current_page,
-      total_pages: records.total_pages,
-      total_count: records.total_count
-    }
-  end
-
 end
