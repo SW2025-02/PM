@@ -8,6 +8,8 @@ class CarendersController < ApplicationController
       # パラメータがない場合（初めてページを開いた時など）は、今日の日付を使用
       @date = Date.current
     end
+    
+    @user = User.find_by(user_id: params[:user_id])
   end
   
   def show_day

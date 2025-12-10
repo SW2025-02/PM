@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新規登録</title>
+  <% content_for :css do %>
+    <%= stylesheet_link_tag "login_style", media: "all" %>
+  <% end %>
+</head>
+
+<body>
+  <div class="container">
+   <%= link_to "戻る", login_path, class: "back-btn" %>
+
+    <h1 class="login-title">新規登録</h1>
+
+    <hr class="divider">
+
+    <%= form_with model: @user, url: signup_path, method: :post, local: true, class: "login-form" do |f| %>
+    <%= f.text_field :user_id, placeholder: "ユーザ名" %>
+    <%= f.password_field :password, placeholder: "パスワード" %>
+    <%= f.password_field :password_confirmation, placeholder: "パスワード確認" %>
+
+
+  <div class="submit-btn-wrapper">
+    <%= f.submit "登録", class: "submit-btn" %>
+  </div>
+<% end %>
+</div>
+</body>
+</html>

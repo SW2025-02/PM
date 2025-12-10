@@ -1,11 +1,11 @@
 <div class="container">
   <header class="header">
     <div class="logout-button-wrapper">
-      <%= button_to 'ログアウト',class: 'logout-button' %>
+      <%= button_to 'ログアウト', logout_path, method: :delete, class: 'logout-button' %>
     </div>
     
-    <h1 class="app-title">ガクレコ</h1>
-    <p class="greeting">〇〇さんお疲れ様です</p> 
+    <h1 class="app-title">Proof me</h1>
+    <p class="greeting"><%= @user %>さんお疲れ様です</p> 
   </header>
 
   <hr>
