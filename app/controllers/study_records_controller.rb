@@ -1,6 +1,4 @@
 class StudyRecordsController < ApplicationController
-
-  before_action :authenticate_user!
   before_action :set_record, only: [:show, :update, :destroy]
 
   # GET /study_records
@@ -28,23 +26,15 @@ class StudyRecordsController < ApplicationController
     @record.destroy
     render json: { status: :deleted }
   end
-<<<<<<< HEAD
   
-=======
-
->>>>>>> X
   private
 
   def set_record
     @record = current_user.study_records.find(params[:id])
   end
 
+
   def study_record_params
     params.require(:study_record).permit(:content, :subject_id, :date)
   end
-
-<<<<<<< HEAD
 end
-=======
-end
->>>>>>> X
