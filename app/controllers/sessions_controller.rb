@@ -5,10 +5,10 @@ class SessionsController < ApplicationController
 
     # 認証成功
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id   
-      redirect_to carender_path     
+      session[:user_id] = user.id   # ログイン状態保持
+      redirect_to carender_path     # ★カレンダーへ
     else
-      redirect_to nothing_path      
+      redirect_to nothing_path      # ★何もなかった画面へ
     end
   end
 

@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root "users#login"
   resources :studies
-  resources :study_records, only: [:index, :show, :create, :update, :destroy]
+  resources :study_records, only: [:index, :show, :update, :destroy]
+  resources :users, only: [:index, :destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
   
@@ -11,12 +12,15 @@ Rails.application.routes.draw do
   get 'carender', to: 'carenders#carender', as: 'carender'
   
   post "/login", to: "sessions#create"
-  post "/signup", to: "users#create"
   get "/login",  to: "users#login"
   get "/signup", to: "users#new"
   get "/nothing", to: "users#nothing"
+  get "/confirm", to: "users#confirm"
   get "/admin", to: "users#admin"
-  get "/signup", to: "users#new"
+
+# 登録処理
+  post "/signup", to: "users#create"
+  post "/confirm", to: "users#confirm_check"
 
   delete '/logout', to: 'sessions#destroy'
 

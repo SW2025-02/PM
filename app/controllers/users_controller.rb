@@ -12,6 +12,33 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
+    redirect_to admin_path, notice: 'ユーザーを削除しました'
+  end
+
+  def admin
+    @users = User.all
+  end
+  
+  def index
+    @users = User.all
+  end
+
+  def confirm
+    # 画面表示だけ
+  end
+
+  def confirm_check
+    user = User.find_by(user_id: params[:user_id])
+    if user && user.authenticate(params[:password])
+      redirect_to admin_path
+    else
+      redirect_to confirm_path, alert: "ユーザ名またはパスワードが違います"
+    end
+  end
+
   private
 
   def user_params

@@ -1,4 +1,5 @@
 class StudyRecordsController < ApplicationController
+  before_action :require_login
   before_action :set_record, only: [:show, :update, :destroy]
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
@@ -6,9 +7,14 @@ class StudyRecordsController < ApplicationController
 
   # GET /study_records
   def index
-    records = current_user.study_records.includes(:subject).order(created_at: :desc)
-    render json: StudyRecordSerializer.new(records).serializable_hash
+  @study_records = current_user.study_records.order(created_at: :desc)
+
+  respond_to do |format|
+    format.html
+    format.json { render json: @study_records }
   end
+end
+
 
   # GET /study_records/:id
   def show

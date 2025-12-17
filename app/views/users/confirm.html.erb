@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>基本情報確認</title>
+</head>
+
+<body>
+
+  <div class="header">
+    <%= link_to "戻る", login_path, class: "back-btn" %>
+    <h1 class="title">基本情報確認</div>
+  </div>
+
+<hr>
+
+  <div class="form-area">
+   <%= form_with url: confirm_path, method: :post, local: true do |f| %>
+
+      <div class="form-row">
+        <label>ユーザ名</label>
+        <%= f.text_field :user_id %>
+      </div>
+
+      <div class="form-row">
+        <label>パスワード</label>
+        <%= f.password_field :password %>
+      </div>
+
+      <%= f.submit "確認", class: "confirm-btn" %>
+
+    <% end %>
+  </div>
+
+</body>
+</html>
