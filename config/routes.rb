@@ -11,18 +11,13 @@ Rails.application.routes.draw do
   get 'carender', to: 'carenders#carender', as: 'carender'
   
   post "/login", to: "sessions#create"
+  post "/signup", to: "users#create"
   get "/login",  to: "users#login"
   get "/signup", to: "users#new"
   get "/nothing", to: "users#nothing"
   get "/admin", to: "users#admin"
-  
-  # 新規登録フォーム表示
-get "/signup", to: "users#new"
+  get "/signup", to: "users#new"
 
-# 登録処理
-post "/signup", to: "users#create"
-
-  
   delete '/logout', to: 'sessions#destroy'
 
 end

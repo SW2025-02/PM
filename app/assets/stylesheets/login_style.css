@@ -52,19 +52,6 @@
   gap: 10px;
 }
 
-.login-btn,
-.signup-btn {
-  border: 1px solid #333;
-  background: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #222;
-  font-size: 14px;
-  cursor: pointer;
-  justify-content: center;
-}
-
 .login-btn:hover,
 .signup-btn:hover {
   background: #eaeaea;
@@ -76,15 +63,22 @@
   font-size: 14px;
 }
 
+.login-btn,
+.signup-btn,
+.admin-btn {
+  border: 1px solid #333;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #222;
+  font-size: 14px;
+  cursor: pointer;
+  justify-content: center;
+}
+
 .admin-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 70px;
-  height: 35px;
-  border: 1px solid #888;
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-  font-size: 15px;
 }
