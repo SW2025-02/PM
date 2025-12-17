@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root "users#login"
   resources :studies
   resources :study_records, only: [:index, :show, :update, :destroy]
+  resources :users, only: [:index, :destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
   
@@ -14,13 +15,12 @@ Rails.application.routes.draw do
   get "/login",  to: "users#login"
   get "/signup", to: "users#new"
   get "/nothing", to: "users#nothing"
+  get "/confirm", to: "users#confirm"
   get "/admin", to: "users#admin"
-  
-  # 新規登録フォーム表示
-get "/signup", to: "users#new"
 
 # 登録処理
-post "/signup", to: "users#create"
+  post "/signup", to: "users#create"
+  post "/confirm", to: "users#confirm_check"
 
   
   delete '/logout', to: 'sessions#destroy'
