@@ -9,7 +9,7 @@ class CarendersController < ApplicationController
       @date = Date.current
     end
     
-    @user = User.find_by(user_id: params[:user_id])
+    @user = User.find(session[:user_id])
   end
   
   def show_day

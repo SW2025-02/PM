@@ -1,12 +1,17 @@
 class StudyRecordsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :require_login
   before_action :set_record, only: [:show, :update, :destroy]
 
   # GET /study_records
   def index
-    records = current_user.study_records.order(created_at: :desc)
-    render json: records
+  @study_records = current_user.study_records.order(created_at: :desc)
+
+  respond_to do |format|
+    format.html
+    format.json { render json: @study_records }
   end
+end
+
 
   # GET /study_records/:id
   def show
