@@ -18,15 +18,25 @@
     </div>
     <hr width = "50%">
 
-    <div class="subject-breakdown">
-      <% %w(国語 数学 理科 社会 英語 その他).each do |subject| %>
-        <div class="subject-row">
-          <span class="subject-name"><%= subject %></span>
-          <div class="time-box">
-          </div>
+    <% subjects = {
+    "国語" => @jap,
+    "数学" => @mat,
+    "理科" => @sci,
+    "社会" => @soc,
+    "英語" => @eng,
+    "その他" => @els
+    } %>
+  
+  <div class="subject-breakdown">
+    <% subjects.each do |subject, time| %>
+      <div class="subject-row">
+        <span class="subject-name"><%= subject %></span>
+        <div class="time-box">
+          <%= time %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+  </div>
   </section>
 
 <hr>

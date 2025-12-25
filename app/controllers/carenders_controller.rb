@@ -1,5 +1,6 @@
 class CarendersController < ApplicationController
   before_action :require_login
+  before_action :subject_time
 
   def carender
     if params[:year].present? && params[:month].present?
@@ -22,5 +23,14 @@ class CarendersController < ApplicationController
     @study_records = current_user.study_records.where(date: target_date)
 
     render 'study_records/index'
+  end
+  
+  def subject_time
+    @jap = 60
+    @mat = 40
+    @sci = 20
+    @soc = 100
+    @eng = 1000
+    @els = 10
   end
 end
