@@ -54,7 +54,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_17_073929) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "password_digest"
-
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 end
