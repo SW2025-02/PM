@@ -27,9 +27,10 @@
 
   <!-- 2段目：ボタン -->
   <div class="row button-row">
-    <button id="startStopBtn" class="btn">スタート / ストップ</button>
-    <button id="pauseResumeBtn" class="btn">停止 / 再開</button>
-    <button id="saveBtn" class="btn">登録</button>
+    <button id="startStopBtn" class="btn" type="button">スタート / ストップ</button>
+    <button id="pauseResumeBtn" class="btn" type="button">停止 / 再開</button>
+    <button id="saveBtn" class="btn" type="button">登録</button>
+
   </div>
 
   <!-- 3段目：登録内容 -->
@@ -48,6 +49,6 @@
 
   <!-- 4段目：追加ボタン -->
   <div class="row add-row">
-    <%= link_to "追加", new_study_path, class: "btn" %>
+    <%= link_to "追加", new_study_record_path, class: "btn" %>
   </div>
 </div>

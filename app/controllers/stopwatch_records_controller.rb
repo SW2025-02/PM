@@ -1,4 +1,5 @@
 class StopwatchRecordsController < ApplicationController
+  before_action :require_login
   before_action :set_stopwatch, only: [:pause, :resume, :status, :finish]
 
   # POST /stopwatch/start
@@ -63,10 +64,13 @@ class StopwatchRecordsController < ApplicationController
 
   # POST /stopwatch/finish
   def finish
-    rec = current_user.stopwatch_record
+    rec = @stopwatch
   
     end_time = Time.zone.now
-    total = rec.elapsed_seconds + (rec.is_running ? (end_time - rec.last_started_at).to_i : 0)
+    total = rec.elapsed_seconds
+    if rec.is_running?
+      total += (end_time - rec.last_started_at).to_i
+    end
   
     study = StudyRecord.create!(
       user_id: current_user.id,
@@ -79,25 +83,28 @@ class StopwatchRecordsController < ApplicationController
       is_completed: true
     )
   
-    rec.destroy # 進行中レコード削除
+    rec.destroy # ← ★これで完全リセット
   
     render json: {
+      status: :finished,
       record: {
         subject: study.subject,
         memo: study.memo,
-        time_spent: "#{study.duration_seconds}秒"
+        time_spent: study.duration_seconds
       }
     }
   end
 
 
+
   private
 
   def set_stopwatch
-    @stopwatch = StopwatchRecord.find_by(user: current_user)
-
+    @stopwatch = StopwatchRecord.find_by(user: current_user, is_running: true)
+  
     unless @stopwatch
       render json: { error: "no active stopwatch" }, status: 404
     end
   end
+
 end
