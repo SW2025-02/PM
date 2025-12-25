@@ -7,13 +7,13 @@ class StudyRecordsController < ApplicationController
 
   # GET /study_records
   def index
-  @study_records = current_user.study_records.order(created_at: :desc)
-
-  respond_to do |format|
-    format.html
-    format.json { render json: @study_records }
+    @study_records = current_user.study_records.order(created_at: :desc)
+  
+    respond_to do |format|
+      format.html
+      format.json { render json: @study_records }
+    end
   end
-end
 
 
   # GET /study_records/:id

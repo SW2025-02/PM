@@ -1,7 +1,11 @@
 /* global fetch */
+
 let timerInterval = null;
 let elapsedSeconds = 0;
 let isRunning = false;
+
+// CSRFトークン（Rails必須）
+const csrfToken = document.querySelector("meta[name='csrf-token']").content;
 
 // ----------------------
 // 時間フォーマット
@@ -14,32 +18,46 @@ function formatTime(sec) {
 }
 
 function updateTimerDisplay() {
-  document.getElementById("timer").textContent = formatTime(elapsedSeconds);
+  const timer = document.getElementById("timer");
+  if (timer) timer.textContent = formatTime(elapsedSeconds);
 }
 
 // ----------------------
-// START / STOP
+// ローカルタイマー制御
+// ----------------------
+function startLocalTimer() {
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopLocalTimer() {
+  clearInterval(timerInterval);
+}
+
+// ----------------------
+// START
 // ----------------------
 document.getElementById("startStopBtn").addEventListener("click", () => {
-  if (!isRunning) {
-    // --- start ---
-    fetch("/stopwatch/start", { method: "POST" })
-      .then(res => res.json())
-      .then(data => {
-        elapsedSeconds = data.elapsed_seconds;
-        isRunning = true;
+  if (isRunning) return;
 
-        timerInterval = setInterval(() => {
-          elapsedSeconds++;
-          updateTimerDisplay();
-        }, 1000);
-      });
-  } else {
-    // --- stop（＝pauseと同じ） ---
-    fetch("/stopwatch/pause", { method: "POST" });
-    clearInterval(timerInterval);
-    isRunning = false;
-  }
+  const subjectId = document.querySelector(".subject-select").value;
+
+  fetch("/stopwatch/start", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken
+    },
+    body: JSON.stringify({ subject_id: subjectId })
+  })
+    .then(() => {
+      elapsedSeconds = 0;
+      updateTimerDisplay();
+      isRunning = true;
+      startLocalTimer();
+    });
 });
 
 // ----------------------
@@ -47,24 +65,27 @@ document.getElementById("startStopBtn").addEventListener("click", () => {
 // ----------------------
 document.getElementById("pauseResumeBtn").addEventListener("click", () => {
   if (isRunning) {
-    // pause
-    fetch("/stopwatch/pause", { method: "POST" });
-    clearInterval(timerInterval);
+    // PAUSE
+    fetch("/stopwatch/pause", {
+      method: "POST",
+      headers: { "X-CSRF-Token": csrfToken }
+    });
+
+    stopLocalTimer();
     isRunning = false;
   } else {
-    // resume
-    fetch("/stopwatch/resume", { method: "POST" })
+    // RESUME
+    fetch("/stopwatch/resume", {
+      method: "POST",
+      headers: { "X-CSRF-Token": csrfToken }
+    })
+      .then(() => fetch("/stopwatch/status"))
       .then(res => res.json())
       .then(data => {
         elapsedSeconds = data.elapsed_seconds;
         updateTimerDisplay();
-
         isRunning = true;
-
-        timerInterval = setInterval(() => {
-          elapsedSeconds++;
-          updateTimerDisplay();
-        }, 1000);
+        startLocalTimer();
       });
   }
 });
@@ -79,19 +100,20 @@ document.getElementById("saveBtn").addEventListener("click", () => {
   fetch("/stopwatch/finish", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken
     },
-    body: JSON.stringify({ subject: subject, memo: memo })
+    body: JSON.stringify({ subject, memo })
   })
     .then(res => res.json())
     .then(data => {
-      // タイマーリセット
-      clearInterval(timerInterval);
+      // タイマー初期化
+      stopLocalTimer();
       elapsedSeconds = 0;
       isRunning = false;
       updateTimerDisplay();
 
-      // ページ更新なしで登録内容を追加
+      // 画面に即反映
       appendRecord(data.record);
     });
 });
@@ -101,29 +123,31 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 // ----------------------
 window.addEventListener("DOMContentLoaded", () => {
   fetch("/stopwatch/status")
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) return null;
+      return res.json();
+    })
     .then(data => {
+      if (!data) return;
+
       elapsedSeconds = data.elapsed_seconds || 0;
       updateTimerDisplay();
 
-      if (data.is_running) {
+      if (data.running) {
         isRunning = true;
-        timerInterval = setInterval(() => {
-          elapsedSeconds++;
-          updateTimerDisplay();
-        }, 1000);
+        startLocalTimer();
       }
     });
 });
 
 // ----------------------
-// StudyRecord を一つ追加表示
+// StudyRecord を1件追加表示
 // ----------------------
 function appendRecord(record) {
   const box = document.querySelector(".record-box");
+  if (!box) return;
 
   const p = document.createElement("p");
   p.innerHTML = `<strong>${record.subject}</strong>：${record.memo}（${record.time_spent}）`;
-
   box.appendChild(p);
 }
