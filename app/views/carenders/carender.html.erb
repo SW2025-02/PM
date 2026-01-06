@@ -15,6 +15,8 @@ c<div class="container">
     <h2 class="month-title"><%= @month %>月</h2>
     <p class="total-label">今月の合計勉強時間</p>
     <div class="total-time-box">
+      <% @total = @jap + @mat + @sci + @soc + @eng + @els %>
+      <%= @total %>
     </div>
     <hr width = "50%">
 

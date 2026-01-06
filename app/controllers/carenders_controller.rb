@@ -1,6 +1,6 @@
 class CarendersController < ApplicationController
   before_action :require_login
-  before_action :subject_time
+  before_action :subject_time, only: [:carender, :show_day]
 
   def carender
     if params[:year].present? && params[:month].present?
