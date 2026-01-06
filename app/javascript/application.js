@@ -1,1 +1,2 @@
-import "./timer"
+import "@hotwired/turbo-rails"
+import "timer"

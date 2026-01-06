@@ -10,7 +10,7 @@ class StopwatchRecordsController < ApplicationController
 
     stopwatch = existing || StopwatchRecord.new(user: current_user)
 
-    stopwatch.update!(
+    stopwatch.update(
       subject: params[:subject],
       start_time: Time.current,
       last_started_at: Time.current,
@@ -29,7 +29,7 @@ class StopwatchRecordsController < ApplicationController
     now = Time.current
     diff = now - stopwatch.last_started_at
 
-    stopwatch.update!(
+    stopwatch.update(
       elapsed_seconds: stopwatch.elapsed_seconds + diff.to_i,
       is_running: false
     )
@@ -42,7 +42,7 @@ class StopwatchRecordsController < ApplicationController
     stopwatch = StopwatchRecord.find_by(user: current_user)
     return render json: { error: "not found" }, status: 404 unless stopwatch && !stopwatch.is_running?
 
-    stopwatch.update!(
+    stopwatch.update(
       is_running: true,
       last_started_at: Time.current
     )
@@ -81,7 +81,7 @@ class StopwatchRecordsController < ApplicationController
       total += (end_time - stopwatch.last_started_at).to_i
     end
 
-    study = StudyRecord.create!(
+    study = StudyRecord.create(
       user: current_user,
       subject: params[:subject],
       memo: params[:memo],

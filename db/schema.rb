@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_17_073929) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_06_093616) do
   create_table "stopwatch_records", force: :cascade do |t|
     t.string "user_id"
-    t.string "subject_id"
     t.string "start_time"
     t.string "datetime"
     t.datetime "pause_time"
@@ -22,11 +21,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_17_073929) do
     t.datetime "last_started_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "subject"
   end
 
   create_table "study_records", force: :cascade do |t|
     t.string "user_id"
-    t.string "subject_id"
     t.date "date"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -35,13 +34,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_17_073929) do
     t.boolean "is_completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "subjects", force: :cascade do |t|
-    t.string "subject_id"
-    t.string "subject_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "subject"
+    t.text "memo"
   end
 
   create_table "users", force: :cascade do |t|
