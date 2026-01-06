@@ -1,132 +1,53 @@
-/* global fetch */
+console.log("🔥 timer.js 読み込まれた")
 
-let timerInterval = null;
-let elapsedSeconds = 0;
-let isRunning = false;
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🔥 DOMContentLoaded 発火")
 
-const csrfToken =
-  document.querySelector('meta[name="csrf-token"]').content;
+  const startBtn = document.getElementById("start-btn")
+  const stopBtn  = document.getElementById("stop-btn")
+  const resetBtn = document.getElementById("reset-btn")
+  const display  = document.getElementById("timer-display")
 
-// ----------------------
-// 時間フォーマット
-// ----------------------
-function formatTime(sec) {
-  const h = String(Math.floor(sec / 3600)).padStart(2, "0");
-  const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
-  const s = String(sec % 60).padStart(2, "0");
-  return `${h}:${m}:${s}`;
-}
+  if (!startBtn || !stopBtn || !resetBtn || !display) {
+    console.warn("⚠️ タイマー用の要素が見つかりません")
+    return
+  }
 
-function updateTimerDisplay() {
-  document.getElementById("timer").textContent = formatTime(elapsedSeconds);
-}
+  console.log("✅ ボタン取得成功")
 
-function startLocalTimer() {
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    elapsedSeconds++;
-    updateTimerDisplay();
-  }, 1000);
-}
+  let timer = null
+  let seconds = 0
 
-function stopLocalTimer() {
-  clearInterval(timerInterval);
-}
+  function updateDisplay() {
+    const min = String(Math.floor(seconds / 60)).padStart(2, "0")
+    const sec = String(seconds % 60).padStart(2, "0")
+    display.textContent = `${min}:${sec}`
+  }
 
-// ----------------------
-// START（開始）
-// ----------------------
-function startTimer() {
-  fetch("/stopwatch/start", {
-    method: "POST",
-    headers: { "X-CSRF-Token": csrfToken }
+  startBtn.addEventListener("click", () => {
+    console.log("▶️ start クリック")
+    if (timer) return
+
+    timer = setInterval(() => {
+      seconds++
+      updateDisplay()
+    }, 1000)
   })
-    .then(res => res.json())
-    .then(() => {
-      isRunning = true;
-      startLocalTimer();
-    });
-}
 
-// ----------------------
-// PAUSE（一時停止）
-// ----------------------
-function pauseTimer() {
-  fetch("/stopwatch/pause", {
-    method: "POST",
-    headers: { "X-CSRF-Token": csrfToken }
-  });
-  isRunning = false;
-  stopLocalTimer();
-}
-
-// ----------------------
-// RESUME（再開）
-// ----------------------
-function resumeTimer() {
-  fetch("/stopwatch/resume", {
-    method: "POST",
-    headers: { "X-CSRF-Token": csrfToken }
+  stopBtn.addEventListener("click", () => {
+    console.log("⏸ stop クリック")
+    clearInterval(timer)
+    timer = null
   })
-    .then(res => res.json())
-    .then(() => {
-      isRunning = true;
-      startLocalTimer();
-    });
-}
 
-// ----------------------
-// FINISH（終了＆登録）
-// ----------------------
-function finishTimer() {
-  const subject = document.querySelector(".subject-select").value;
-  const memo = document.querySelector(".memo-box").value;
-
-  fetch("/stopwatch/finish", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken
-    },
-    body: JSON.stringify({ subject, memo })
+  resetBtn.addEventListener("click", () => {
+    console.log("🔁 reset クリック")
+    clearInterval(timer)
+    timer = null
+    seconds = 0
+    updateDisplay()
   })
-    .then(res => res.json())
-    .then(data => {
-      stopLocalTimer();
-      elapsedSeconds = 0;
-      isRunning = false;
-      updateTimerDisplay();
-      appendRecord(data.record);
-    });
-}
 
-// ----------------------
-// ボタンイベント
-// ----------------------
-document.addEventListener("turbo:load", () => {
-  document.getElementById("startStopBtn").onclick = () => {
-    if (!isRunning && elapsedSeconds === 0) {
-      startTimer();
-    } else {
-      finishTimer();
-    }
-  };
+  updateDisplay()
+})
 
-  document.getElementById("pauseResumeBtn").onclick = () => {
-    if (isRunning) {
-      pauseTimer();
-    } else {
-      resumeTimer();
-    }
-  };
-});
-
-// ----------------------
-// 登録内容を追加表示
-// ----------------------
-function appendRecord(record) {
-  const box = document.querySelector(".record-box");
-  const p = document.createElement("p");
-  p.innerHTML = `<strong>${record.subject}</strong>：${record.memo}（${record.time_spent}）`;
-  box.appendChild(p);
-}

@@ -1,46 +1,48 @@
 class StopwatchRecordsController < ApplicationController
   before_action :require_login
-  before_action :set_stopwatch, only: [:pause, :resume, :status, :finish]
 
   # POST /stopwatch/start
   def start
-    # すでに進行中があればそれを返す
-    existing = StopwatchRecord.find_by(user: current_user, is_running: true)
-    if existing
-      return render json: { status: :already_running, stopwatch: existing }, status: 200
+    existing = StopwatchRecord.find_by(user: current_user)
+    if existing&.is_running?
+      return render json: { status: :already_running }, status: 200
     end
 
-    stopwatch = StopwatchRecord.create!(
-      user: current_user,
-      subject_id: params[:subject_id],
+    stopwatch = existing || StopwatchRecord.new(user: current_user)
+
+    stopwatch.update!(
+      subject: params[:subject],
       start_time: Time.current,
       last_started_at: Time.current,
       elapsed_seconds: 0,
       is_running: true
     )
 
-    render json: { status: :started, stopwatch: stopwatch }, status: 201
+    render json: { status: :started }, status: 201
   end
 
   # POST /stopwatch/pause
   def pause
-    return render json: { error: "not running" }, status: 400 unless @stopwatch.is_running?
+    stopwatch = StopwatchRecord.find_by(user: current_user)
+    return render json: { error: "not found" }, status: 404 unless stopwatch&.is_running?
 
     now = Time.current
-    diff = now - @stopwatch.last_started_at
-    @stopwatch.update!(
-      elapsed_seconds: @stopwatch.elapsed_seconds + diff.to_i,
+    diff = now - stopwatch.last_started_at
+
+    stopwatch.update!(
+      elapsed_seconds: stopwatch.elapsed_seconds + diff.to_i,
       is_running: false
     )
 
-    render json: { status: :paused, elapsed: @stopwatch.elapsed_seconds }
+    render json: { status: :paused }
   end
 
   # POST /stopwatch/resume
   def resume
-    return render json: { error: "already running" }, status: 400 if @stopwatch.is_running?
+    stopwatch = StopwatchRecord.find_by(user: current_user)
+    return render json: { error: "not found" }, status: 404 unless stopwatch && !stopwatch.is_running?
 
-    @stopwatch.update!(
+    stopwatch.update!(
       is_running: true,
       last_started_at: Time.current
     )
@@ -50,41 +52,48 @@ class StopwatchRecordsController < ApplicationController
 
   # GET /stopwatch/status
   def status
-    total = @stopwatch.elapsed_seconds
-    if @stopwatch.is_running?
-      total += (Time.current - @stopwatch.last_started_at).to_i
+    stopwatch = StopwatchRecord.find_by(user: current_user)
+
+    if stopwatch.nil?
+      return render json: { running: false, elapsed_seconds: 0 }
+    end
+
+    total = stopwatch.elapsed_seconds
+    if stopwatch.is_running?
+      total += (Time.current - stopwatch.last_started_at).to_i
     end
 
     render json: {
-      running: @stopwatch.is_running?,
+      running: stopwatch.is_running?,
       elapsed_seconds: total,
-      subject_id: @stopwatch.subject_id
+      subject: stopwatch.subject
     }
   end
 
   # POST /stopwatch/finish
   def finish
-    rec = @stopwatch
-  
-    end_time = Time.zone.now
-    total = rec.elapsed_seconds
-    if rec.is_running?
-      total += (end_time - rec.last_started_at).to_i
+    stopwatch = StopwatchRecord.find_by(user: current_user)
+    return render json: { error: "not found" }, status: 404 unless stopwatch
+
+    end_time = Time.current
+    total = stopwatch.elapsed_seconds
+    if stopwatch.is_running?
+      total += (end_time - stopwatch.last_started_at).to_i
     end
-  
+
     study = StudyRecord.create!(
-      user_id: current_user.id,
+      user: current_user,
       subject: params[:subject],
       memo: params[:memo],
-      start_time: rec.start_time,
+      start_time: stopwatch.start_time,
       end_time: end_time,
       duration_seconds: total,
       date: end_time.to_date,
       is_completed: true
     )
-  
-    rec.destroy # ← ★これで完全リセット
-  
+
+    stopwatch.destroy
+
     render json: {
       status: :finished,
       record: {
@@ -94,17 +103,4 @@ class StopwatchRecordsController < ApplicationController
       }
     }
   end
-
-
-
-  private
-
-  def set_stopwatch
-    @stopwatch = StopwatchRecord.find_by(user: current_user, is_running: true)
-  
-    unless @stopwatch
-      render json: { error: "no active stopwatch" }, status: 404
-    end
-  end
-
 end
