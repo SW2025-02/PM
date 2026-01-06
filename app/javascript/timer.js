@@ -8,7 +8,6 @@ document.addEventListener("turbo:load", () => {
   const pauseResumeBtn = document.getElementById("pauseResumeBtn")
 
   if (!timerDisplay || !startStopBtn || !pauseResumeBtn) {
-    console.warn("⚠️ 必要な要素が見つかりません")
     return
   }
 
@@ -113,27 +112,51 @@ document.addEventListener("turbo:load", () => {
       }
     } else {
       // FINISH
-      const res = await fetch("/stopwatch/finish", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken()
-        },
-        body: JSON.stringify({
-          subject: subjectSelect?.value,
-          memo: memoBox?.value
-        })
+    const res = await fetch("/stopwatch/finish", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken()
+      },
+      body: JSON.stringify({
+        subject: subjectSelect?.value,
+        memo: memoBox?.value
       })
-
-      if (res.ok) {
-        stopPolling()
-        isRunning = false
-        isPaused = false
-        updateDisplay(0)
+    })
+    
+    if (res.ok) {
+      const data = await res.json()
+    
+      console.log("✅ finished:", data)
+    
+      // 🧹 画面クリア
+      stopPolling()
+      isRunning = false
+      isPaused = false
+    
+      updateDisplay(0)
+    
+      if (subjectSelect) subjectSelect.value = "数学"
+      if (memoBox) memoBox.value = ""
+    
+      updateButtons()
+      
+      const recordsBox = document.getElementById("records")
+      if (recordsBox) {
+        // 「NotFound: Motivation」があれば消す
+        const noRecords = document.getElementById("no-records")
+        if (noRecords) noRecords.remove()
+      
+        const p = document.createElement("p")
+        p.innerHTML = `
+          <strong>${data.record.subject}</strong>
+          ${data.record.memo ?? ""}
+          （${data.record.time_spent} 秒）
+        `
+        recordsBox.appendChild(p)
       }
     }
-
-    updateButtons()
+   }
   })
 
   /* ------------------------------

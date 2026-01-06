@@ -24,8 +24,11 @@ Rails.application.routes.draw do
 
   # カレンダー
   get "carender", to: "carenders#carender", as: "carender"
+  
+  # # 記録
+  # get "/study_records/:date", to: "study_records#daily", as: :daily_study_records
 
-  # ===== ストップウォッチ（★これが今回の答え）=====
+  # ===== ストップウォッチ =====
   post "/stopwatch/start",  to: "stopwatch_records#start"
   post "/stopwatch/pause",  to: "stopwatch_records#pause"
   post "/stopwatch/resume", to: "stopwatch_records#resume"

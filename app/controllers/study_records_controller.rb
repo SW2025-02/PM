@@ -7,6 +7,11 @@ class StudyRecordsController < ApplicationController
 
   # GET /study_records
   def index
+    
+    #chatGPTにindexを送る /0106
+    #これらを編集、削除できるように
+    #追加を８時間で表示するように
+    today = Time.zone.today
     @study_records = current_user.study_records.order(created_at: :desc)
   
     respond_to do |format|
@@ -43,6 +48,13 @@ class StudyRecordsController < ApplicationController
     head :no_content
   end
 
+  def daily
+    date = Date.parse(params[:date])
+
+    @records = StudyRecord
+                 .where(user: current_user, date: date)
+                 .order(created_at: :desc)
+  end
 
   private
 

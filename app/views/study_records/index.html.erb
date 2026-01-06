@@ -37,13 +37,19 @@
   <div class="row record-row">
     <div class="record-box">
       <h3>今日の登録内容</h3>
-      <% if @records.present? %>
-        <% @records.each do |r| %>
-          <p><strong><%= r.subject %></strong>：<%= r.memo %>（<%= r.time_spent %>）</p>
+      <div id="records">
+        <% if @study_records.present? %>
+          <% @study_records.each do |r| %>
+            <p>
+              <strong><%= r.subject %></strong>
+              <%= r.memo %>
+              （<%= r.duration_seconds %> 秒）
+            </p>
+          <% end %>
+        <% else %>
+          <p id="no-records">NotFound: Motivation</p>
         <% end %>
-      <% else %>
-        <p>NotFound: Motivation</p>
-      <% end %>
+      </div>
     </div>
   </div>
 
