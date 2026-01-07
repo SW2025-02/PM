@@ -53,7 +53,11 @@ class StudyRecordsController < ApplicationController
 
   def destroy
     @record.destroy
-    head :no_content
+
+    respond_to do |format|
+      format.html { redirect_back fallback_location: root_path }
+      format.json { render json: { success: true } }
+    end
   end
 
   def daily
@@ -62,6 +66,10 @@ class StudyRecordsController < ApplicationController
     @records = StudyRecord
                  .where(user: current_user, date: date)
                  .order(created_at: :desc)
+  end
+  
+  def new
+    @study_record = StudyRecord.new
   end
 
   private

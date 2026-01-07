@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get "/nothing", to: "users#nothing"
 
   # ===== 勉強記録 =====
-  resources :study_records
+  resources :study_records, only: [:index, :create, :destroy, :show, :update,:new ]
 
 
   # # 日付別表示

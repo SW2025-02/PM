@@ -191,4 +191,44 @@ document.addEventListener("turbo:load", () => {
      初期化（リロード耐性）
   ------------------------------ */
   fetchStatus()
+  
+    /* ------------------------------
+     削除処理
+  ------------------------------ */
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".delete-record-btn")
+    if (!btn) return
+
+    const recordId = btn.dataset.id
+    if (!recordId) return
+
+    if (!confirm("この記録を削除しますか？")) return
+
+    const res = await fetch(`/study_records/${recordId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": csrfToken(),
+        "Accept": "application/json"
+      }
+    })
+
+    if (!res.ok) {
+      alert("削除に失敗しました")
+      return
+    }
+
+    // DOM から削除
+    const recordRow = btn.closest("p")
+    if (recordRow) recordRow.remove()
+
+    // 全部消えたら NotFound 表示
+    const recordsBox = document.getElementById("records")
+    if (recordsBox && recordsBox.children.length === 0) {
+      const p = document.createElement("p")
+      p.id = "no-records"
+      p.textContent = "NotFound: Motivation"
+      recordsBox.appendChild(p)
+    }
+  })
+
 })

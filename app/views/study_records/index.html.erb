@@ -45,6 +45,10 @@
               <strong><%= r.subject %></strong>
               <%= r.memo %>
               （<%= r.duration_seconds %> 秒）
+              
+              <button class="delete-record-btn" data-id="<%= r.id %>">
+                削除
+              </button>
             </p>
           <% end %>
         <% else %>
