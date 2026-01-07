@@ -88,7 +88,7 @@ class StopwatchRecordsController < ApplicationController
       start_time: stopwatch.start_time,
       end_time: end_time,
       duration_seconds: total,
-      date: end_time.to_date,
+      date: params[:date],
       is_completed: true
     )
 

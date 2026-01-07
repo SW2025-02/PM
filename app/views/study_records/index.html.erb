@@ -1,6 +1,6 @@
 <div class="container">
      <%= link_to "戻る", carender_path%>
-    <h1 class="row button-row"><%= @month %>月<%= @day %>日</h1>
+    <h1 class="row button-row"><%= @date.month %>月<%= @date.day %>日</h1>
   <!-- 1段目：タイマーと勉強内容 -->
   <div class="top-row">
     <div class="left-column">
@@ -37,6 +37,7 @@
   <div class="row record-row">
     <div class="record-box">
       <h3>今日の登録内容</h3>
+      <input type="hidden" id="record-date" value="<%= @date %>">
       <div id="records">
         <% if @study_records.present? %>
           <% @study_records.each do |r| %>

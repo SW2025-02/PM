@@ -1,4 +1,4 @@
-c<div class="container">
+<div class="container">
   <header class="header">
     <div class="logout-button-wrapper">
       <%= button_to 'ログアウト', logout_path, method: :delete, class: 'logout-button' %>
@@ -72,7 +72,10 @@ c<div class="container">
               css_class += ' sunday'
             end
           %>
-          <%= link_to "#{day}日",study_day_path(month: @date.month, day: day),class: css_class %>
+          <%= link_to "#{day}日",
+    study_records_path(date: @date.change(day: day)),
+    class: css_class %>
+
         <% end %>
       </div>
     </div>

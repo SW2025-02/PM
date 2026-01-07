@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   resources :study_records
 
 
-  # 日付別表示
-  get "study_records/:month/:day", to: "carenders#show_day", as: "study_day"
+  # # 日付別表示
+  # get "study_records/:month/:day", to: "carenders#show_day", as: "study_day"
 
   # カレンダー
   get "carender", to: "carenders#carender", as: "carender"

@@ -18,8 +18,9 @@ document.addEventListener("turbo:load", () => {
 
   const subjectSelect = document.querySelector(".subject-select")
   const memoBox = document.querySelector(".memo-box")
-
-
+  
+  const recordDate = document.getElementById("record-date")?.value
+  console.log("📅 recordDate:", recordDate)
 
   let pollingTimer = null
   let isRunning = false
@@ -120,7 +121,8 @@ document.addEventListener("turbo:load", () => {
       },
       body: JSON.stringify({
         subject: subjectSelect?.value,
-        memo: memoBox?.value
+        memo: memoBox?.value,
+        date: recordDate
       })
     })
     

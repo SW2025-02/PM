@@ -11,8 +11,16 @@ class StudyRecordsController < ApplicationController
     #chatGPTにindexを送る /0106
     #これらを編集、削除できるように
     #追加を８時間で表示するように
-    today = Time.zone.today
-    @study_records = current_user.study_records.order(created_at: :desc)
+    @date =
+    begin
+      params[:date].present? ? Date.parse(params[:date]) : Time.zone.today
+    rescue ArgumentError
+      Time.zone.today
+    end
+
+    @study_records = current_user.study_records
+      .where(date: @date)
+      .order(created_at: :asc)
   
     respond_to do |format|
       format.html

@@ -1,6 +1,6 @@
 class CarendersController < ApplicationController
   before_action :require_login
-  before_action :subject_time, only: [:carender, :show_day]
+  before_action :subject_time, only: [:carender]
 
   def carender
     if params[:year].present? && params[:month].present?
@@ -14,16 +14,16 @@ class CarendersController < ApplicationController
   end
 
   
-  def show_day
-    @month = params[:month].to_i
-    @day   = params[:day].to_i
+  # def show_day
+  #   @month = params[:month].to_i
+  #   @day   = params[:day].to_i
 
-    target_date = Date.new(Date.today.year, @month, @day)
+  #   target_date = Date.new(Date.today.year, @month, @day)
 
-    @study_records = current_user.study_records.where(date: target_date)
+  #   @study_records = current_user.study_records.where(date: target_date)
 
-    render 'study_records/index'
-  end
+  #   render 'study_records/index'
+  # end
   
   def subject_time
     @jap = 60
