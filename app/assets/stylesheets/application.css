@@ -62,12 +62,6 @@ textarea.memo-box {
   max-width: 600px;
 }
 
-/* app/assets/stylesheets/studies.scss などに記述 */
-
-/* app/assets/stylesheets/studies.scss などに追記/修正 */
-
-
-
 .logout-button-wrapper {
   position: absolute;
   top: 0; 
@@ -87,19 +81,6 @@ textarea.memo-box {
 .header {
   text-align: center;
   position: relative;
-}
-
-.logout-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 1px solid black;
-  padding: 5px;
-  text-decoration: none;
-  color: black;
-  display: inline-block;
-  height: auto;
-  width:100px;
 }
 
 .total-time-box, .time-box {
@@ -136,26 +117,37 @@ textarea.memo-box {
   color: black;
 }
 
-/* app/assets/stylesheets/studies.scss などに追記/修正 */
-
 .wday-label {
   /*// 元々あったスタイル*/
   text-align: center;
   font-weight: bold;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
-
-  /* --- ここから中央寄せのための追加/修正 --- */
-  /*/曜日ラベルのセルの高さ・幅を日付セルと揃えるために必要*/
   height: 60px; 
-  /*padding: 0; // 既存のパディングをリセットし、Flexbox/Gridで制御します*/
-
-  /*// Flexboxコンテナとして設定*/
   display: flex;
-  
-  /*// 横方向（主軸）を中央に揃える*/
   justify-content: center;
-  
-  /*// 縦方向（交差軸）を中央に揃える*/
   align-items: center;
+}
+.back-btn,
+.logout-btn{
+  border: 1px solid #333;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #222;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+
+.back-btn:hover,
+.logout-btn:hover{
+  background: #eaeaea;
 }

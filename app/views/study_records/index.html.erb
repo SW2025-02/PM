@@ -1,6 +1,6 @@
 <div class="container">
-     <%= link_to "戻る", carender_path%>
-    <h1 class="row button-row"><%= @date.month %>月<%= @date.day %>日</h1>
+  <%= link_to "戻る", carender_path, class: "back-btn" %>
+  <h1 class="row button-row"><%= @date.month %>月<%= @date.day %>日</h1>
   <!-- 1段目：タイマーと勉強内容 -->
   <div class="top-row">
     <div class="left-column">
@@ -56,11 +56,6 @@
         <% end %>
       </div>
     </div>
-  </div>
-
-  <!-- 4段目：追加ボタン -->
-  <div class="row add-row">
-    <%= link_to "追加", new_study_record_path, class: "btn" %>
   </div>
 </div>
 

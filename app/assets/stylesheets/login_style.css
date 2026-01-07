@@ -38,8 +38,8 @@
 /* 入力欄 */
 .login-form input[type="text"],
 .login-form input[type="password"],
-.form-row input[typr="text"],
-.form-row input[typr="text"]{
+.form-row input[type="text"],
+.form-row input[type="password"]{
   width: 50%;
   padding: 12px;
   border-radius: 6px;
@@ -107,4 +107,11 @@
 .confirm-btn{
   display: block;
   margin: 10px auto;
+}
+
+hr {
+  width: 100%;
+  /*border: none;*/
+  border-top: 1px solid #ccc;
+  /*margin: 20px 0;*/
 }
