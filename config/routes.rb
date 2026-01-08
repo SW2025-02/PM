@@ -18,16 +18,11 @@ Rails.application.routes.draw do
   # ===== 勉強記録 =====
   resources :study_records, only: [:index, :create, :destroy, :show, :update,:new ]
 
-
-  # # 日付別表示
-  # get "study_records/:month/:day", to: "carenders#show_day", as: "study_day"
-
   # カレンダー
   get "carender", to: "carenders#carender", as: "carender"
   
-  # # 記録
-  # get "/study_records/:date", to: "study_records#daily", as: :daily_study_records
-
+  # 証明書
+  get "proof", to: "proofs#proof", as: "proof"
   # ===== ストップウォッチ =====
   post "/stopwatch/start",  to: "stopwatch_records#start"
   post "/stopwatch/pause",  to: "stopwatch_records#pause"

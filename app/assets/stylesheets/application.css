@@ -125,7 +125,8 @@ textarea.memo-box {
   align-items: center;
 }
 .back-btn,
-.logout-btn{
+.logout-btn,
+.proof-btn{
   border: 1px solid #333;
   background: white;
   padding: 8px 16px;
@@ -136,16 +137,24 @@ textarea.memo-box {
   cursor: pointer;
 }
 
-.back-btn {
+.back-btn,
+.logout-btn{
   position: fixed;
   top: 20px;
   left: 20px;
 }
 
+.proof-btn{
+  position: fixed;
+  top:20px;
+  right: 20px;
+}
+
 
 .back-btn:hover,
 .logout-btn:hover,
-.day-button:hover{
+.day-button:hover,
+.proof-btn:hover{
   background: #eaeaea;
 }
 

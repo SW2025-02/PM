@@ -3,6 +3,7 @@
     <div class="logout-button-wrapper">
       <%= button_to 'ログアウト', logout_path, method: :delete, class: 'logout-btn' %>
     </div>
+    <%= link_to "証明書発行", proof_path, class: "proof-btn" %>
     
     <h1 class="app-title">Proof me</h1>
     <p class="greeting"><%= @user.user_id %>さんお疲れ様です</p>
