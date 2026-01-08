@@ -84,11 +84,16 @@ document.addEventListener("turbo:load", () => {
      ボタン表示制御
   ------------------------------ */
   function updateButtons() {
-    startStopBtn.textContent = isRunning ? "終了" : "開始"
-    pauseResumeBtn.textContent = isPaused ? "再開" : "停止"
-
-    pauseResumeBtn.disabled = !isRunning && !isPaused
+  if (isRunning || isPaused) {
+    startStopBtn.textContent = "終了"
+  } else {
+    startStopBtn.textContent = "開始"
   }
+
+  pauseResumeBtn.textContent = isPaused ? "再開" : "停止"
+  pauseResumeBtn.disabled = !isRunning && !isPaused
+}
+
 
   /* ------------------------------
      スタート / 終了
@@ -195,6 +200,9 @@ document.addEventListener("turbo:load", () => {
     /* ------------------------------
      削除処理
   ------------------------------ */
+  if (document.body.dataset.deleteBound === "true") return
+  document.body.dataset.deleteBound = "true"
+  
   document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".delete-record-btn")
     if (!btn) return
