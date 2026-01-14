@@ -1,6 +1,6 @@
 <div class="container">
   <%= link_to "戻る", carender_path, class: "back-btn" %>
-  <%= link_to "証明書発行", proof_path, class: "proof-btn" %>
+  <%= link_to "証明書発行", proof_path(date:@date), class: "proof-btn" %>
   <h1 class="row button-row"><%= @date.month %>月<%= @date.day %>日</h1>
   <!-- 1段目：タイマーと勉強内容 -->
   <div class="top-row">

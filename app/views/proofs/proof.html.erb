@@ -151,6 +151,15 @@
       line-height: 1.2;
       text-align: center;
     }
+    
+    .otanjobi{
+      color:red;
+    }
+    
+    .back-btn {
+      font-family: sans-serif;
+    }
+
   </style>
 </head>
 <body>
@@ -163,37 +172,62 @@
     <div class="certificate">
       <div class="cert-header">
         <div class="logo">PM</div>
-        <div class="header-text">Proof Meより勉強したことの証明</div>
+        <div class="header-text">Proof Meよりお母様へ勉強したことの証明</div>
       </div>
 
-      <div class="sub-title">今日の勉強時間</div>
+      <div class="sub-title">
+        本日のお勉強時間
+      </div>
+      
 
-      <div class="main-title">勉強証明書</div>
+      <div class="main-title">お勉強証明書</div>
 
-      <div class="name">検定 太郎 殿</div>
+      <div class="name"><%= current_user.user_id %> 殿</div>
 
       <div class="info">
-        認定番号：XXXXXXXX<br />
-        認定年月日：20XX年XX月XX日
+        認定年月日：<%= @date.strftime("%Y年%m月%d日") %>
       </div>
 
       <div class="message">
-        上記の者は、一般社団法人コンピュータ教育振興協会主催の<br />
-        20XX年度 2次元CAD利用技術者試験において、<br />
-        2級に合格したことを証する。
+        上記の者は、本日以下の時間勉強に励みました。<br />
+        我々PM運営委員会一同が、<br />
+        お子様が勉強をしたことを証明させて頂きます。
+      </div>
+      
+      <% subjects = {
+        "国語" => @jap,
+        "数学" => @mat,
+        "理科" => @sci,
+        "社会" => @soc,
+        "英語" => @eng,
+        "その他" => @els
+      } %>
+
+      <div class = "info">
+        <% if @study_records.any? %>
+            <% @study_records.each do |record| %>
+              <div>
+                <%= record.subject %>
+                <%= record.content %>
+                （<%= record.duration_seconds / 60 %>分<%= record.duration_seconds % 60 %>秒）
+              </div>
+            <% end %>
+          <% else %>
+            <h1>おっと、今日は<span class = "otanjobi">お誕生日</span>かな？？</h1>
+          <% end %>
       </div>
 
       <div class="footer">
         <div class="org">
-          発行年月日　20XX年XX月XX日<br />
-          一般社団法人 コンピュータ教育振興協会<br />
-          Association for Computer Skills Promotion
+          発行年月日　<%= @date.strftime("%Y年%m月%d日") %><br />
+          一般社団法人 PM運営青少年対母親保護委員会<br />
+          Proof Me to mom
         </div>
 
         <div class="sign-area">
-          <div class="sign-text">代表理事　認定 花子</div>
+          <div class="sign-text">代表理事 ｱﾝﾋﾞｼｬｽ 佐藤</div>
           <div class="seal">
-            協会<br />認定<br />印
+            委員会<br />認定印
           </div>
         </div>
       </div>
