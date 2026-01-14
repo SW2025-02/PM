@@ -152,7 +152,7 @@
       text-align: center;
     }
     
-    .otanjobi{
+    .red{
       color:red;
     }
     
@@ -191,7 +191,11 @@
       <div class="message">
         上記の者は、本日以下の時間勉強に励みました。<br />
         我々PM運営一同が、<br />
-        お子様が勉強をしたことを証明させて頂きます。
+        <%- if @study_records.any? -%>
+          <span>お子様が勉強をしたことを証明させて頂きます。</span>
+        <%- else -%>
+          <span>お子様が勉強をしたことを証明させて頂きたかったのですが...</span>
+        <%- end -%>
       </div>
       
       <% subjects = {
@@ -213,7 +217,7 @@
               </div>
             <% end %>
           <% else %>
-            <h1>おっと、今日は<span class = "otanjobi">お誕生日</span>かな？？</h1>
+            <h1>本日は、勉強時間はありませんでした。PM運営一同、誠に遺憾でございます。</h1>
           <% end %>
       </div>
 
