@@ -117,7 +117,7 @@ hr {
 .logo {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #f5b041, #d68910);
+  background: linear-gradient(135deg, #6495ED, #3155A6);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -129,7 +129,6 @@ hr {
 }
 
 .container {
-  max-width: 400px;
   margin: 60px auto;
   padding: 20px;
 }
